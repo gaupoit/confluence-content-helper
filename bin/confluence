@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+// -*- mode: js -*-
+
+var toMarkdown = require('to-markdown');
+var util = require('util');
+var Confluence = require('../lib/Confluence');
+var fs = require('fs');
+var argv = require('yargs').argv;
+var config = require('../config/confluenceConfig');
+
+var title = argv.title || "";
+var dataPath = argv.data_path || "";
+
+var expand = "body.view,history,children.page.results.body.view,ancestors,descendants.page,space";
+if(title === "") {
+        console.log("Please enter a module with option --title={title}");
+        return;
+}
+var confluence = Confluence({
+    username: config.username,
+    password: config.password,
+    dataPath: dataPath
+});
+
+confluence.getContent({
+    "title": title,
+    "expand": expand
+});
+

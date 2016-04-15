@@ -1,0 +1,24 @@
+{
+  "name": "confluence-content-helper",
+  "version": "1.0.1",
+  "description": "This is a helper to deal with confluence's content",
+  "main": "bin/confluence.js",
+  "preferGlobal": "true",
+  "bin": {
+    "confluence-content-helper": "bin/confluence"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "confluence"
+  ],
+  "dependencies": {
+
+  },
+  "author": "gaupoit",
+  "license": "ISC"
+}
