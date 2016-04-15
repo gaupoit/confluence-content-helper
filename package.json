@@ -17,7 +17,11 @@
     "confluence"
   ],
   "dependencies": {
-
+    "lodash": "^4.11.1",
+    "promise": "^7.1.1",
+    "promise-queue": "^2.2.3",
+    "request": "^2.71.0",
+    "to-markdown": "^2.0.1"
   },
   "repository": {
     "type": "git",
