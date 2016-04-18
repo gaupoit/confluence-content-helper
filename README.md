@@ -1,16 +1,16 @@
 
 # Confluence-content-helper
 
-This is a cool tool to download confluence's content. Parsing them to markdown files and storing them to structure like in Confluence's page.
+This is a cool tool to download confluence's content and parse them to markdown files and storing them to structure like in Confluence's page.
 
 ## Getting Started
-1. Install confluence-content-helper via npm: 
+*  Install confluence-content-helper via npm: 
 ```bash
 
 $ npm install confluence-content-helper
 ```
 
-2. Configuration 
+*  Configuration 
 
 Before using this package, we need to edit some configrations inside /config/confluenceConfig.js file.
 
@@ -25,7 +25,7 @@ Before using this package, we need to edit some configrations inside /config/con
 | imagePath | string | where to store image files, relatively to public's directory |
 
 
-3. Let's start
+*  Let's start
 
 ```bash
 
