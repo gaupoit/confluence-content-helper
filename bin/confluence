@@ -6,7 +6,7 @@ var util =                        require('util');
 var Confluence =                  require('../lib/Confluence');
 var fs =                          require('fs');
 var argv =                        require('yargs').argv;
-var config =                      require('../config/confluenceConfig');
+var applicationConfig =           require('../config/confluenceConfig');
 var program =                     require('commander')
 var version =                     require('../package.json').version;
 var name =                        require('../package.json').name;
@@ -77,10 +77,9 @@ program
 			if (err) { 
 				onErr(err);
 			}
-			// var oldConfig = fileHelper.loadConfigration();
 			var newConfig = {
 				'baseUrl': result.base_url,
-				"baseUri": "/rest/api/content",
+				"baseUri": applicationConfig.baseUri,
 				"dataPath": result.data_path,
 				"username": result.username,
 				"password": result.password,
