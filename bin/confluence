@@ -9,25 +9,32 @@ var argv =                        require('yargs').argv;
 var config =                      require('../config/confluenceConfig');
 var program =                     require('commander')
 var version =                     require('../package.json').version;
+var name =                        require('../package.json').name;
 var prompt =                      require('prompt');
 var colors =                      require('colors/safe');
+var fileHelper =                  require('../lib/fileHelper');
 
 var expand = "body.view,history,children.page.results.body.view,ancestors,descendants.page,space";
 
 program
 	.version(version)
-	.option('-t --title [type]', 'Change title')
-	.option('-d --data-path [type]', 'Change data path')
-	.option('-u --username [type]', 'Change user name')
-	.option('-p --password [type]', 'Change password')
-	.option('-r --public-dir[type] ', 'Change public directory')
-	.option('-i --img-dir [type]', 'Change images directory');
+	.option('-t --title [type]', 'Page or space title')
+	.option('-d --data_path [type]', 'The path to store the markdown pages')
+	.option('-u --username [type]', 'The username of your Confluence account')
+	.option('-p --password [type]', 'The password of your Confluence account')
+	.option('-r --public_dir[type] ', 'The public directory ')
+	.option('-i --img_dir [type]', 'The image path to store images');
 
 program
 	.command('show_configs')
 	.description('show current configuration')
 	.action(function() {
-		console.log("Show Config");
+		var configs = fileHelper.loadConfigration();
+		if(configs) {
+			console.log(colors.green("Current configs:"), configs);	
+		} else {
+			console.log(colors.green("Please generate configurations by using create_configs command!!!"))
+		}
 	});
 
 program
@@ -36,6 +43,10 @@ program
 	.action(function() {
 		var schema = {
 			properties: {
+				base_url: {
+					require: true,
+					description: colors.magenta("What is confluence\'s base url?")
+				},
 				username: {
 					require: true,
 					description: colors.magenta("What is confluence\'s user name?")
@@ -44,20 +55,46 @@ program
 					hidden: true,
 					require: true,
 					description: colors.magenta("What is confluence\'s user password?")
+				},
+				"data_path": {
+					require: true,
+					description: colors.magenta("Where is the place to store the markdown files?")
+				},
+				"public_dir": {
+					require: true,
+					description: colors.magenta("Where is the place to store the asserts (public folder)?")
+				},
+				"img_path": {
+					require: true,
+					description: colors.magenta("Where is the place to store the images under public directory?")
 				}
 			}
 		}
-		prompt.message = colors.rainbow("Please answer these questions to create configurations!!!")
-		prompt.delimiter = colors.green("><");
+		prompt.message = colors.white(name);
 		prompt.start();
+		console.log(colors.green("Please answer these questions to create configurations!!!"))
 		prompt.get(schema, function(err, result) {
 			if (err) { 
 				onErr(err);
 			}
-			console.log('Command-line input received:');
-		    console.log('  username: ' + result.username);
-    		console.log('  email: ' + result.password);
-    		process.exit(1);
+			// var oldConfig = fileHelper.loadConfigration();
+			var newConfig = {
+				'baseUrl': result.base_url,
+				"baseUri": "/rest/api/content",
+				"dataPath": result.data_path,
+				"username": result.username,
+				"password": result.password,
+				"publicDir": result.public_dir,
+				"imagePath": result.img_path
+			}
+			fileHelper.saveConfiguration(newConfig).then(function(){
+				console.log("Configration save sucessfully");
+				process.exit(1);
+			}, function(err){
+				console.log("There has been an error saving configurations");
+				onErr(err);
+			});	
+    		
 		});
 	});
 
@@ -65,7 +102,7 @@ program.parse(process.argv);
 
 function onErr(err) {
 	console.log(err);
-	process.exit(1);
+	process.exit(0);
 }
 
 // if(program.title === "") {
