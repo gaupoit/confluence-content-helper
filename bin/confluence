@@ -10,6 +10,7 @@ var config =                      require('../config/confluenceConfig');
 var program =                     require('commander')
 var version =                     require('../package.json').version;
 var prompt =                      require('prompt');
+var colors =                      require('colors/safe');
 
 var expand = "body.view,history,children.page.results.body.view,ancestors,descendants.page,space";
 
@@ -31,9 +32,25 @@ program
 
 program
 	.command('create_configs') 
-	.description('edit current configuration')
+	.description('create configurations')
 	.action(function() {
-		prompt.get(['username', 'password'], function(err, result) {
+		var schema = {
+			properties: {
+				username: {
+					require: true,
+					description: colors.magenta("What is confluence\'s user name?")
+				},
+				password: {
+					hidden: true,
+					require: true,
+					description: colors.magenta("What is confluence\'s user password?")
+				}
+			}
+		}
+		prompt.message = colors.rainbow("Please answer these questions to create configurations!!!")
+		prompt.delimiter = colors.green("><");
+		prompt.start();
+		prompt.get(schema, function(err, result) {
 			if (err) { 
 				onErr(err);
 			}
