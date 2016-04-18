@@ -1,29 +1,70 @@
 #!/usr/bin/env node
 // -*- mode: js -*-
 
-var toMarkdown = require('to-markdown');
-var util = require('util');
-var Confluence = require('../lib/Confluence');
-var fs = require('fs');
-var argv = require('yargs').argv;
-var config = require('../config/confluenceConfig');
-
-var title = argv.title || "";
-var dataPath = argv.data_path || "";
+var toMarkdown =                  require('to-markdown');
+var util =                        require('util');
+var Confluence =                  require('../lib/Confluence');
+var fs =                          require('fs');
+var argv =                        require('yargs').argv;
+var config =                      require('../config/confluenceConfig');
+var program =                     require('commander')
+var version =                     require('../package.json').version;
+var prompt =                      require('prompt');
 
 var expand = "body.view,history,children.page.results.body.view,ancestors,descendants.page,space";
-if(title === "") {
-        console.log("Please enter a module with option --title={title}");
-        return;
-}
-var confluence = Confluence({
-    username: config.username,
-    password: config.password,
-    dataPath: dataPath
-});
 
-confluence.getContent({
-    "title": title,
-    "expand": expand
-});
+program
+	.version(version)
+	.option('-t --title [type]', 'Change title')
+	.option('-d --data-path [type]', 'Change data path')
+	.option('-u --username [type]', 'Change user name')
+	.option('-p --password [type]', 'Change password')
+	.option('-r --public-dir[type] ', 'Change public directory')
+	.option('-i --img-dir [type]', 'Change images directory');
+
+program
+	.command('show_configs')
+	.description('show current configuration')
+	.action(function() {
+		console.log("Show Config");
+	});
+
+program
+	.command('create_configs') 
+	.description('edit current configuration')
+	.action(function() {
+		prompt.get(['username', 'password'], function(err, result) {
+			if (err) { 
+				onErr(err);
+			}
+			console.log('Command-line input received:');
+		    console.log('  username: ' + result.username);
+    		console.log('  email: ' + result.password);
+    		process.exit(1);
+		});
+	});
+
+program.parse(process.argv);
+
+function onErr(err) {
+	console.log(err);
+	process.exit(1);
+}
+
+// if(program.title === "") {
+//     console.log("Please enter a module with option -t {title} or --title={title}");
+//     return;
+// } else {
+// 	console.log("Title", program.title);
+// }
+// var confluence = Confluence({
+//     username: config.username,
+//     password: config.password,
+//     dataPath: dataPath
+// });
+
+// confluence.getContent({
+//     "title": title,
+//     "expand": expand
+// });
 

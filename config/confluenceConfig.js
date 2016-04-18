@@ -10,7 +10,7 @@ var config = {
     "baseUri": "/rest/api/content",
 
     //The path of data to store the markdown pages
-    "dataPath": "",
+    "dataPath": "../example",
 
     //The username of your Confluence account
     "username": "",

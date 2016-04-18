@@ -17,9 +17,12 @@
     "confluence"
   ],
   "dependencies": {
+    "colors": "^1.1.2",
+    "commander": "^2.9.0",
     "lodash": "^4.11.1",
     "promise": "^7.1.1",
     "promise-queue": "^2.2.3",
+    "prompt": "^1.0.0",
     "request": "^2.71.0",
     "to-markdown": "^2.0.1",
     "yargs": "^4.6.0"
