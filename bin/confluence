@@ -27,14 +27,19 @@ program
 	.command('show_configs')
 	.description('show current configuration')
 	.action(function() {
-		var configs = fileHelper.loadConfigration();
-		if(configs) {
-			console.log(colors.green("Current configs:"));
-			console.log(configs);	
-		} else {
-			console.log(colors.green("Please generate configurations by using create_configs command!!!"))
-		}
-		process.exit(1);
+		fileHelper.checkDefaultConfigFileExists().then(function(){
+			var configs = fileHelper.loadConfigration();
+			if(configs) {
+				console.log(colors.green("Current configs:"));
+				console.log(configs);	
+			} else {
+				console.log(colors.green("Please generate configurations by using create_configs command!!!"))
+			}
+			process.exit(1);
+		}, function(err){
+			cannotFindConfigFile();
+		});
+		
 	});
 
 program
@@ -63,8 +68,7 @@ program
 				process.exit(1);
 			}
 		}, function(err) {
-			console.log(colors.red("Please create configuration file first by using create_configs command!!!"))
-			process.exit(-1);
+			cannotFindConfigFile();
 		});
 		
 	});
@@ -80,6 +84,11 @@ process.on('exit', (code) => {
 });
 function onErr(err) {
 	console.log(err);
+	process.exit(-1);
+}
+
+function cannotFindConfigFile() {
+	console.log(colors.red("Please create configuration file first by using create_configs command!!!"))
 	process.exit(-1);
 }
 
