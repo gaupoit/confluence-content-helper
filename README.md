@@ -13,7 +13,6 @@ $ npm install confluence-content-helper
 *  Configuration 
 
 Before using this package, we need to generate default configuration file with command 
-
 ```bash
 
 $ ./node_modules/confluence-content-helper/bin/confluence create_configs
