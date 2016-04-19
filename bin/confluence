@@ -31,7 +31,8 @@ program
 	.action(function() {
 		var configs = fileHelper.loadConfigration();
 		if(configs) {
-			console.log(colors.green("Current configs:"), configs);	
+			console.log(colors.green("Current configs:"));
+			console.log(configs);	
 		} else {
 			console.log(colors.green("Please generate configurations by using create_configs command!!!"))
 		}
