@@ -12,7 +12,13 @@ $ npm install confluence-content-helper
 
 *  Configuration 
 
-Before using this package, we need to edit some configrations inside /config/confluenceConfig.js file.
+Before using this package, we need to generate default configuration file with command 
+
+```bash
+
+$ ./node_modules/confluence-content-helper/bin/confluence create_configs
+
+```
 
 | Param | Type | Describe |
 | --- | --- | --- |
@@ -25,11 +31,12 @@ Before using this package, we need to edit some configrations inside /config/con
 | imagePath | string | where to store image files, relatively to public's directory |
 
 
+
 *  Let's start
 
 ```bash
 
-$ ./node_modules/confluence-content-helper/bin/confluence --title="Input your space or page in Confluence here"
+$ ./node_modules/confluence-content-helper/bin/confluence "Input your space or page in Confluence here"
 
 ```
 
