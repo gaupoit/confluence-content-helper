@@ -72,7 +72,7 @@ program
 program.parse(process.argv);
 
 process.on('exit', (code) => {
-	if(code > 0) {
+	if(code >= 0) {
 		console.log(colors.green("Got work done. Good bye and see you again!!!"));
 	} else {
 		console.log(colors.yellow("Got work failed. Please try again or report the issues at:", repositoryUrl));
