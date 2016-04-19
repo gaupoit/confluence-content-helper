@@ -50,7 +50,7 @@ program
 	.description("Get confluence content by space or page\'s title")
 	.action(function(title) {
 		fileHelper.checkDefaultConfigFileExists().then(function(){
-			console.log("Title", title);
+			console.log(color.green("Getting page %s and it\'s sub pages!!!"), title);
 			if(title) {	
 				var expand = "body.view,history,children.page.results.body.view,ancestors,descendants.page,space";
 				var config = fileHelper.loadConfigration();
