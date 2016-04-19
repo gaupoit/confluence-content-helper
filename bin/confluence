@@ -9,6 +9,7 @@ var applicationConfig =           require('../config/confluenceConfig');
 var program =                     require('commander')
 var version =                     require('../package.json').version;
 var name =                        require('../package.json').name;
+var repositoryUrl=                require('../package.json').repository.url;
 var prompt =                      require('prompt');
 var colors =                      require('colors/safe');
 var fileHelper =                  require('../lib/fileHelper');
@@ -50,7 +51,7 @@ program
 	.description("Get confluence content by space or page\'s title")
 	.action(function(title) {
 		fileHelper.checkDefaultConfigFileExists().then(function(){
-			console.log(color.green("Getting page %s and it\'s sub pages!!!"), title);
+			console.log(colors.green("Getting page and sub pages: ", title));
 			if(title) {	
 				var expand = "body.view,history,children.page.results.body.view,ancestors,descendants.page,space";
 				var config = fileHelper.loadConfigration();
@@ -65,16 +66,23 @@ program
 			}
 		}, function(err) {
 			console.log(colors.red("Please create configuration file first by using create_configs command!!!"))
-			process.exit(0);
+			process.exit(-1);
 		});
 		
 	});
 
 program.parse(process.argv);
 
+process.on('exit', (code) => {
+	if(code > 0) {
+		console.log(colors.green("Got work done. Good bye and see you again!!!"));
+	} else {
+		console.log(colors.yellow("Got work failed. Please try again or report the issues at:", repositoryUrl));
+	}
+});
 function onErr(err) {
 	console.log(err);
-	process.exit(0);
+	process.exit(-1);
 }
 
 function _createConfig() {
