@@ -1,7 +1,7 @@
 
 # Confluence-content-helper
 
-This is a cool tool to download confluence's content and parse them to markdown files and storing them to structure like in Confluence's page.
+This is a cool tool to download confluence's content, parse them to markdown files and store them to structure like in Confluence's page.
 
 ## Getting Started
 *  Install confluence-content-helper via npm: 
