@@ -5,7 +5,6 @@ var toMarkdown =                  require('to-markdown');
 var util =                        require('util');
 var Confluence =                  require('../lib/Confluence');
 var fs =                          require('fs');
-var argv =                        require('yargs').argv;
 var applicationConfig =           require('../config/confluenceConfig');
 var program =                     require('commander')
 var version =                     require('../package.json').version;
