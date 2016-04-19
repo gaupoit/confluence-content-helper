@@ -1,6 +1,6 @@
 {
   "name": "confluence-content-helper",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "This is a helper to deal with confluence's content",
   "main": "bin/confluence.js",
   "preferGlobal": "true",
