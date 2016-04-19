@@ -36,7 +36,7 @@ $ ./node_modules/confluence-content-helper/bin/confluence create_configs
 
 ```bash
 
-$ ./node_modules/confluence-content-helper/bin/confluence "Input your space or page in Confluence here"
+$ ./node_modules/confluence-content-helper/bin/confluence get_content "Input your space or page's title in Confluence here"
 
 ```
 
