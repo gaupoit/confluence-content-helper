@@ -17,7 +17,6 @@ Before using this package, we need to generate default configuration file with c
 ```bash
 
 $ ./node_modules/confluence-content-helper/bin/confluence create_configs
-
 ```
 
 | Param | Type | Describe |
