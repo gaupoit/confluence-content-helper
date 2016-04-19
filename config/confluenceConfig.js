@@ -4,25 +4,25 @@
 var config = {
 
 	//The base URL of your Confluence 
-    'baseUrl': "",
+    'baseUrl': "http://confluence.abc.com/",
 
     //The base URI of Confluence api
     "baseUri": "/rest/api/content",
 
     //The path of data to store the markdown pages
-    "dataPath": "../example",
+    "dataPath": "/data",
 
     //The username of your Confluence account
-    "username": "",
+    "username": "your-user-name",
 
     //The password of your Confluence password
-    "password": "",
+    "password": "your-password",
 
-    //The public directory 
-    "publicDir": "",
+    //The application's public directory 
+    "publicDir": "public",
 
-    //The image path to store images
-    "imagePath": ""
+    //The image path to store images relatively to public directory
+    "imagePath": "images"
     
 };
 

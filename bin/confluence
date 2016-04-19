@@ -14,7 +14,7 @@ var prompt =                      require('prompt');
 var colors =                      require('colors/safe');
 var fileHelper =                  require('../lib/fileHelper');
 
-var expand = "body.view,history,children.page.results.body.view,ancestors,descendants.page,space";
+
 
 program
 	.version(version)
@@ -35,66 +35,39 @@ program
 		} else {
 			console.log(colors.green("Please generate configurations by using create_configs command!!!"))
 		}
+		process.exit(1);
 	});
 
 program
 	.command('create_configs') 
 	.description('create configurations')
 	.action(function() {
-		var schema = {
-			properties: {
-				base_url: {
-					require: true,
-					description: colors.magenta("What is confluence\'s base url?")
-				},
-				username: {
-					require: true,
-					description: colors.magenta("What is confluence\'s user name?")
-				},
-				password: {
-					hidden: true,
-					require: true,
-					description: colors.magenta("What is confluence\'s user password?")
-				},
-				"data_path": {
-					require: true,
-					description: colors.magenta("Where is the place to store the markdown files?")
-				},
-				"public_dir": {
-					require: true,
-					description: colors.magenta("Where is the place to store the asserts (public folder)?")
-				},
-				"img_path": {
-					require: true,
-					description: colors.magenta("Where is the place to store the images under public directory?")
-				}
-			}
-		}
-		prompt.message = colors.white(name);
-		prompt.start();
-		console.log(colors.green("Please answer these questions to create configurations!!!"))
-		prompt.get(schema, function(err, result) {
-			if (err) { 
-				onErr(err);
-			}
-			var newConfig = {
-				'baseUrl': result.base_url,
-				"baseUri": applicationConfig.baseUri,
-				"dataPath": result.data_path,
-				"username": result.username,
-				"password": result.password,
-				"publicDir": result.public_dir,
-				"imagePath": result.img_path
-			}
-			fileHelper.saveConfiguration(newConfig).then(function(){
-				console.log("Configration save sucessfully");
+		_createConfig();
+	});
+
+program
+	.command("get_content [title]")
+	.description("Get confluence content by space or page\'s title")
+	.action(function(title) {
+		fileHelper.checkDefaultConfigFileExists().then(function(){
+			console.log("Title", title);
+			if(title) {	
+				var expand = "body.view,history,children.page.results.body.view,ancestors,descendants.page,space";
+				var config = fileHelper.loadConfigration();
+				var confluence = Confluence(config);
+				confluence.getContent({
+				    "title": title,
+				    "expand": expand
+				});
+			} else {
+				console.log(colors.red("Please enter space or page\'s title by using this get_content [title]"));
 				process.exit(1);
-			}, function(err){
-				console.log("There has been an error saving configurations");
-				onErr(err);
-			});	
-    		
+			}
+		}, function(err) {
+			console.log(colors.red("Please create configuration file first by using create_configs command!!!"))
+			process.exit(0);
 		});
+		
 	});
 
 program.parse(process.argv);
@@ -104,20 +77,61 @@ function onErr(err) {
 	process.exit(0);
 }
 
-// if(program.title === "") {
-//     console.log("Please enter a module with option -t {title} or --title={title}");
-//     return;
-// } else {
-// 	console.log("Title", program.title);
-// }
-// var confluence = Confluence({
-//     username: config.username,
-//     password: config.password,
-//     dataPath: dataPath
-// });
+function _createConfig() {
+	var schema = {
+		properties: {
+			base_url: {
+				require: true,
+				description: colors.magenta("What is confluence\'s base url?")
+			},
+			username: {
+				require: true,
+				description: colors.magenta("What is confluence\'s user name?")
+			},
+			password: {
+				hidden: true,
+				require: true,
+				description: colors.magenta("What is confluence\'s user password?")
+			},
+			"data_path": {
+				require: true,
+				description: colors.magenta("Where is the place to store the markdown files?")
+			},
+			"public_dir": {
+				require: true,
+				description: colors.magenta("Where is the place to store the asserts (public folder)?")
+			},
+			"img_path": {
+				require: true,
+				description: colors.magenta("Where is the place to store the images under public directory?")
+			}
+		}
+	}
+	prompt.message = colors.white(name);
+	prompt.start();
+	console.log(colors.green("Please answer these questions to create configurations!!!"))
+	prompt.get(schema, function(err, result) {
+		if (err) { 
+			onErr(err);
+		}
+		var newConfig = {
+			'baseUrl': result.base_url,
+			"baseUri": applicationConfig.baseUri,
+			"dataPath": result.data_path,
+			"username": result.username,
+			"password": result.password,
+			"publicDir": result.public_dir,
+			"imagePath": result.img_path
+		}
+		fileHelper.saveConfiguration(newConfig).then(function(){
+			console.log("Configration save sucessfully");
+			process.exit(1);
+		}, function(err){
+			console.log("There has been an error saving configurations");
+			onErr(err);
+		});	
+	  		
+	});
+}
 
-// confluence.getContent({
-//     "title": title,
-//     "expand": expand
-// });
 
