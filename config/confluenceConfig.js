@@ -22,7 +22,10 @@ var config = {
     "publicDir": "public",
 
     //The image path to store images relatively to public directory
-    "imagePath": "images"
+    "imagePath": "images",
+
+    //The image path to show in md files
+    "imageMdPath": "/images-path-in-md-file"
     
 };
 

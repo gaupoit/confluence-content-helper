@@ -6,7 +6,7 @@ var util =                        require('util');
 var Confluence =                  require('../lib/Confluence');
 var fs =                          require('fs');
 var applicationConfig =           require('../config/confluenceConfig');
-var program =                     require('commander')
+var program =                     require('commander');
 var version =                     require('../package.json').version;
 var name =                        require('../package.json').name;
 var repositoryUrl=                require('../package.json').repository.url;
@@ -15,13 +15,12 @@ var colors =                      require('colors/safe');
 var fileHelper =                  require('../lib/fileHelper');
 
 program
-	.version(version)
-	.option('-t --title [type]', 'Page or space title')
-	.option('-d --data_path [type]', 'The path to store the markdown pages')
-	.option('-u --username [type]', 'The username of your Confluence account')
-	.option('-p --password [type]', 'The password of your Confluence account')
-	.option('-r --public_dir[type] ', 'The public directory ')
-	.option('-i --img_dir [type]', 'The image path to store images');
+  .version('0.0.1')
+  .option('-p, --peppers', 'Add peppers')
+  .option('-P, --pineapple', 'Add pineapple')
+  .option('-b, --bbq-sauce', 'Add bbq sauce')
+  .option('-c, --cheese [type]', 'Add the specified type of cheese [marble]', 'marble')
+  .parse(process.argv);
 
 program
 	.command('show_configs')
