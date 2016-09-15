@@ -24,6 +24,7 @@
     "promise-queue": "^2.2.3",
     "prompt": "^1.0.0",
     "request": "^2.71.0",
+    "request-sync": "^1.0.0",
     "to-markdown": "^2.0.1"
   },
   "repository": {

@@ -55,7 +55,7 @@ program
 		fileHelper.checkDefaultConfigFileExists().then(function(){
 			console.log(colors.green("Getting page and sub pages: ", title));
 			if(title) {	
-				var expand = "body.view,history,children.page.results.body.view,ancestors,descendants.page,space";
+				var expand = "body.view,children.page.results.body.view,ancestors,descendants.page,space";
 				var config = fileHelper.loadConfigration();
 				var confluence = Confluence(config);
 				confluence.getContent({
